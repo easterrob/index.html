@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sidewalk Survival NYC</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { overflow: hidden; background: #0d0a1e; font-family: 'Arial Black', Arial, sans-serif; }
+
+    /* ── Start screen ── */
+    #start-screen {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(13,10,30,0.94);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; color: #fff; cursor: pointer;
+    }
+    #start-screen h1  { font-size: 36px; color: #f4a261; margin-bottom: 8px; }
+    #start-screen .sub { font-size: 19px; color: #e9c46a; margin-bottom: 18px; font-family: Arial; }
+    #start-screen p   { font-size: 15px; color: #a8dadc; margin-bottom: 5px;
+                         font-weight: normal; font-family: Arial; }
+    #start-screen .cta {
+      margin-top: 28px; font-size: 19px; color: #fff;
+      border: 2px solid #f4a261; padding: 12px 38px; border-radius: 6px;
+      animation: blink 1.1s ease-in-out infinite alternate;
+    }
+    @keyframes blink { from { opacity: 1; } to { opacity: 0.3; } }
+
+    /* ── HUD ── */
+    #hud {
+      position: fixed; top: 0; left: 0; width: 100%;
+      display: flex; justify-content: space-between; align-items: flex-start;
+      padding: 14px 22px; pointer-events: none; z-index: 10;
+    }
+    #timer    { font-size: 30px; color: #fff; text-shadow: 0 0 14px rgba(255,140,66,.85); }
+    #lanes    { font-size: 20px; color: #a8dadc; letter-spacing: 10px; }
+    #progress { font-size: 14px; color: #a8dadc; font-family: Arial; text-align: right; margin-top: 4px; }
+
+    /* ── Progress bar ── */
+    #bar-wrap {
+      position: fixed; bottom: 38px; left: 50%; transform: translateX(-50%);
+      width: 320px; pointer-events: none; z-index: 10; text-align: center;
+    }
+    #bar-bg   { width: 320px; height: 10px; background: #333; border-radius: 5px; }
+    #bar-fill { height: 10px; background: #f4a261; border-radius: 5px; width: 0%; }
+    #bar-label { font-size: 11px; color: #a8dadc; font-family: Arial; margin-top: 3px; }
+
+    #hint {
+      position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+      font-size: 13px; font-family: Arial; color: rgba(168,218,220,.55);
+      pointer-events: none; z-index: 10;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Start screen — clicking this captures keyboard focus and starts the game -->
+  <div id="start-screen">
+    <h1>🗽 SIDEWALK SURVIVAL NYC</h1>
+    <div class="sub">Don't stop. Don't get hit. Just get there.</div>
+    <p>← →  or  A D — sidestep between lanes</p>
+    <p>🕳️ Manhole / 🚴 Bike Messenger → <strong style="color:#ff6b6b">instant game over</strong></p>
+    <p>💩 Dog Poo / 📸 Tourist → <strong style="color:#f4a261">2-second slow down</strong></p>
+    <div class="cta">CLICK  OR  PRESS  SPACE  TO  START</div>
+  </div>
+
+  <!-- HUD (hidden until game starts) -->
+  <div id="hud" style="display:none">
+    <div id="timer">⏱ 45s</div>
+    <div>
+      <div id="lanes">□ ■ □</div>
+      <div id="progress">0% there</div>
+    </div>
+  </div>
+  <div id="bar-wrap" style="display:none">
+    <div id="bar-bg"><div id="bar-fill"></div></div>
+    <div id="bar-label">🏠 Start &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 🏁 Destination</div>
+  </div>
+  <div id="hint" style="display:none">← → or A D to sidestep</div>
+
+  <!-- Three.js from CDN, then all game logic -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
